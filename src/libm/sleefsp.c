@@ -2376,3 +2376,38 @@ int main(int argc, char **argv) {
   //printf("%g, %g\n", (double)r.x, (double)r.y);
 }
 #endif
+
+#include "export_libm.h"
+
+EXPORT_LIBM_FUNCTION(expf, Sleef_expf_u10)
+EXPORT_LIBM_FUNCTION(exp2f, Sleef_exp2f_u10)
+EXPORT_LIBM_FUNCTION(exp10f, Sleef_exp10f_u10)
+EXPORT_LIBM_FUNCTION(expm1f, Sleef_expm1f_u10)
+EXPORT_LIBM_FUNCTION(logf, Sleef_logf_u10)
+EXPORT_LIBM_FUNCTION(log2f, Sleef_log2f_u10)
+EXPORT_LIBM_FUNCTION(log10f, Sleef_log10f_u10)
+EXPORT_LIBM_FUNCTION(log1pf, Sleef_log1pf_u10)
+
+EXPORT_LIBM_FUNCTION(powf, Sleef_powf_u10)
+EXPORT_LIBM_FUNCTION(cbrtf, Sleef_cbrtf_u10)
+EXPORT_LIBM_FUNCTION(hypotf, Sleef_hypotf_u05)
+
+EXPORT_LIBM_FUNCTION(sinf, Sleef_sinf_u10)
+EXPORT_LIBM_FUNCTION(cosf, Sleef_cosf_u10)
+EXPORT_LIBM_FUNCTION(tanf, Sleef_tanf_u10)
+EXPORT_LIBM_FUNCTION(asinf, Sleef_asinf_u10)
+EXPORT_LIBM_FUNCTION(acosf, Sleef_acosf_u10)
+EXPORT_LIBM_FUNCTION(atanf, Sleef_atanf_u10)
+EXPORT_LIBM_FUNCTION(atan2f, Sleef_atan2f_u10)
+
+EXPORT_LIBM_FUNCTION(sinhf, Sleef_sinhf_u10)
+EXPORT_LIBM_FUNCTION(coshf, Sleef_coshf_u10)
+EXPORT_LIBM_FUNCTION(tanhf, Sleef_tanhf_u10)
+EXPORT_LIBM_FUNCTION(asinhf, Sleef_asinhf_u10)
+EXPORT_LIBM_FUNCTION(acoshf, Sleef_acoshf_u10)
+EXPORT_LIBM_FUNCTION(atanhf, Sleef_atanhf_u10)
+
+EXPORT_LIBM_FUNCTION(erff, Sleef_erff_u10)
+EXPORT_LIBM_FUNCTION(erfcf, Sleef_erfcf_u15)
+EXPORT_LIBM_FUNCTION(tgammaf, Sleef_tgammaf_u10)
+EXPORT_LIBM_FUNCTION(lgammaf, Sleef_lgammaf_u10)

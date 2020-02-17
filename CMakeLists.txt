@@ -13,6 +13,8 @@ option(SLEEF_SHOW_ERROR_LOG "Show cmake error log." OFF)
 
 option(ENFORCE_TESTER3 "Build fails if tester3 is not built" OFF)
 
+option(EXPORT_LIBM "Export math functions in libsleef for overriding standard libm" OFF)
+
 # See doc/build-with-cmake.md for instructions on how to build Sleef.
 cmake_minimum_required(VERSION 3.4.3)
 # Set to NEW when updating cmake_minimum_required to VERSION >= 3.7.2
@@ -67,9 +69,14 @@ configure_file(
 # variables listed below carry the names of the targets defined throughout
 # the project.
 
-# Generates object file (shared library) `libsleef`
-# Defined in src/libm/CMakeLists.txt via command add_library
-set(TARGET_LIBSLEEF "sleef")
+# Generates object file (shared library) `libsleef`.
+# Defined in src/libm/CMakeLists.txt via command add_library.
+# If the EXPORT_LIBM feature is enabled, generate `libsleeflibm` instead.
+if(EXPORT_LIBM)
+  set(TARGET_LIBSLEEF "sleeflibm")
+else()
+  set(TARGET_LIBSLEEF "sleef")
+endif()
 set(TARGET_LIBSLEEFGNUABI "sleefgnuabi")
 # Generates the sleef.h headers and all the rename headers
 # Defined in src/libm/CMakeLists.txt via custom commands and a custom target

@@ -1,0 +1,19 @@
+/* 
+  Version script for GNU LD-compatible linkers,
+  to define the version node "SLEEF_3" that contains
+  the scalar functions from Sleef re-exported under
+  C99 names.  
+
+  We must use versioned symbols so that, if a process 
+  loads both libsleef.so and libm.so (the C99 math 
+  functions from the standard C library), the two
+  implementations of the functions will not clash
+  with each other.
+
+  This version script is used only when the EXPORT_C99
+  feature is turned on in Sleef's CMake build system.
+*/ 
+
+SLEEF_3 {
+};
+

@@ -183,6 +183,15 @@ set_target_properties(${TARGET_LIBSLEEF} PROPERTIES
   ${COMMON_TARGET_PROPERTIES}
 )
 
+if(EXPORT_LIBM)
+  target_compile_definitions(${TARGET_LIBSLEEF} PRIVATE EXPORT_LIBM)
+
+  if(NOT MSVC)
+    target_link_options(${TARGET_LIBSLEEF} PRIVATE "LINKER:--version-script=${CMAKE_CURRENT_SOURCE_DIR}/export_libm.map")
+    set_target_properties(${TARGET_LIBSLEEF} PROPERTIES LINK_DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/export_libm.map)
+  endif()
+endif()
+
 target_compile_definitions(${TARGET_LIBSLEEF}
   PRIVATE DORENAME=1 ${COMMON_TARGET_DEFINITIONS}
 )
