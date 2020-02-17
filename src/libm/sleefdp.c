@@ -11,11 +11,20 @@
 #include <limits.h>
 #include <float.h>
 
-#ifndef ENABLE_BUILTIN_MATH
-#include <math.h>
-#define SQRT sqrt
+#if defined(ENABLE_BUILTIN_MATH)
+  #define SQRT __builtin_sqrt
+#elif defined(_MSC_VER) && (defined(_M_X64) || _M_IX86_FP == 2)
+  #include <emmintrin.h>
+  static __forceinline double SQRT(double x)
+  {
+    double y;
+    __m128d xx = _mm_set_sd(x);
+    _mm_store_sd(&y, _mm_sqrt_sd(xx, xx));
+    return y;
+  }
 #else
-#define SQRT __builtin_sqrt
+  #include <math.h>
+  #define SQRT sqrt
 #endif
 
 #include "misc.h"
