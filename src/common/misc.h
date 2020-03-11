@@ -255,7 +255,7 @@ typedef union {
 #endif
 #define INLINE __attribute__((always_inline))
 
-#if defined(__MINGW32__) || defined(__MINGW64__) || defined(__CYGWIN__)
+#if defined(__MINGW32__) || defined(__MINGW64__) || defined(__CYGWIN__) || defined(_MSC_VER)
 #ifndef SLEEF_STATIC_LIBS
 #define EXPORT __stdcall __declspec(dllexport)
 #define NOEXPORT
