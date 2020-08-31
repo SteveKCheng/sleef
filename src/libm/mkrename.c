@@ -256,9 +256,12 @@ int main(int argc, char **argv) {
       wdp = wsp = "x";
 
     char * vectorcc = "";
-    #ifdef ENABLE_AAVPCS
+    #if defined(ENABLE_AAVPCS)
     if (strcmp(isaname, "advsimd") == 0)
-      vectorcc =" __attribute__((aarch64_vector_pcs))";
+      vectorcc = " __attribute__((aarch64_vector_pcs))";
+    #elif defined(_MSC_VER) && defined(ENABLE_VECTOR_CALL)
+    if (strcmp(wdp, "1") != 0 || strcmp(wsp, "1") != 0)
+      vectorcc = " __vectorcall";
     #endif
 
     printf("#ifdef %s\n", architecture);

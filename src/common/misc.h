@@ -327,8 +327,10 @@ typedef union {
 
 #endif // #ifndef __MISC_H__
 
-#ifdef ENABLE_AAVPCS
+#if defined(ENABLE_AAVPCS)
 #define VECTOR_CC __attribute__((aarch64_vector_pcs))
+#elif defined(ENABLE_VECTOR_CALL) && defined(_MSC_VER) 
+#define VECTOR_CC __vectorcall
 #else
 #define VECTOR_CC
 #endif
