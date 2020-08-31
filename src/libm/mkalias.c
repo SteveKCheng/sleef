@@ -25,9 +25,11 @@ int main(int argc, char **argv) {
   char *isaname = argc == 6 ? argv[5] : "";
 
   char * vectorcc="";
-#ifdef ENABLE_AAVPCS
+#if defined(ENABLE_AAVPCS)
   if (strcmp(isaname, "advsimd") == 0)
     vectorcc =" __attribute__((aarch64_vector_pcs))";
+#elif defined(_WIN32) && defined(ENABLE_VECTORCALL)
+  vectorcc = " __vectorcall";
 #endif
 
   static char *argType2[] = {
