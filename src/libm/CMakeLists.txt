@@ -49,6 +49,10 @@ if(FORCE_AAVPCS)
   host_target_AAVPCS_definitions(${TARGET_MKRENAME})
 endif()
 
+if(VECTOR_CALL)
+  target_compile_definitions(${TARGET_MKRENAME} PRIVATE ENABLE_VECTOR_CALL=1)
+endif()
+
 set(HEADER_FILES_GENERATED "")
 foreach(SIMD ${SLEEF_SUPPORTED_EXTENSIONS})
   if(COMPILER_SUPPORTS_${SIMD})
@@ -141,6 +145,10 @@ add_host_executable(${TARGET_MKALIAS} mkalias.c)
 if(FORCE_AAVPCS)
   host_target_AAVPCS_definitions(${TARGET_MKALIAS})
 endif()
+if(VECTOR_CALL)
+  target_compile_definitions(${TARGET_MKALIAS} PRIVATE ENABLE_VECTOR_CALL=1)
+endif()
+
 
 # --------------------------------------------------------------------
 # TARGET_MKDISP
@@ -276,6 +284,11 @@ foreach(SIMD ${SLEEF_SUPPORTED_EXTENSIONS})
       )
     endif()
 
+    if(VECTOR_CALL AND NOT (${SIMD} STREQUAL "PUREC_SCALAR" OR ${SIMD} STREQUAL "PURECFMA_SCALAR"))
+      target_compile_definitions(${OBJECT_${SIMD}} PRIVATE ENABLE_VECTOR_CALL=1)
+      target_compile_definitions(${OBJECTDET_${SIMD}} PRIVATE ENABLE_VECTOR_CALL=1)
+    endif()
+
     add_dependencies(${OBJECT_${SIMD}} rename${SIMD}.h_generated)
     add_dependencies(${OBJECTDET_${SIMD}} rename${SIMD}.h_generated)
 
@@ -355,6 +368,10 @@ if (SLEEF_ARCH_X86)
 
   if (COMPILER_SUPPORTS_AVX2)
     set(DISPATCHER_DEFINITIONS ${DISPATCHER_DEFINITIONS} ENABLE_AVX2=1)
+  endif()
+
+  if(VECTOR_CALL)
+    set(DISPATCHER_DEFINITIONS ${DISPATCHER_DEFINITIONS} ENABLE_VECTOR_CALL=1)
   endif()
 
   add_library(dispsse_obj OBJECT dispsse.c)

@@ -14,6 +14,7 @@ option(SLEEF_SHOW_ERROR_LOG "Show cmake error log." OFF)
 option(ENFORCE_TESTER3 "Build fails if tester3 is not built" OFF)
 
 option(EXPORT_LIBM "Export math functions in libsleef for overriding standard libm" OFF)
+option(VECTOR_CALL "Compile functions with vector calling convention if available and appropriate" OFF)
 
 # See doc/build-with-cmake.md for instructions on how to build Sleef.
 cmake_minimum_required(VERSION 3.4.3)
