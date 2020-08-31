@@ -22,6 +22,8 @@ option(ENABLE_ALTSQRT "Enable alternative sqrt method (aarch64 only)" OFF)
 
 option(DISABLE_FFTW "Disable testing the DFT library with FFTW" OFF)
 
+option(ENABLE_VECTORCALL "Compile functions with vector calling convention under Microsoft ABI" OFF)
+
 cmake_minimum_required(VERSION 3.4.3)
 
 # Set to NEW when updating cmake_minimum_required to VERSION >= 3.7.2

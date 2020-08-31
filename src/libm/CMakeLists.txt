@@ -58,6 +58,10 @@ if(FORCE_AAVPCS)
   host_target_AAVPCS_definitions(${TARGET_MKRENAME})
 endif()
 
+if(ENABLE_VECTORCALL)
+  target_compile_definitions(${TARGET_MKRENAME} PRIVATE ENABLE_VECTORCALL=1)
+endif()
+
 set(HEADER_FILES_GENERATED "")
 foreach(SIMD ${SLEEF_SUPPORTED_EXTENSIONS})
   if(COMPILER_SUPPORTS_${SIMD})
@@ -150,6 +154,10 @@ add_host_executable(${TARGET_MKALIAS} mkalias.c)
 if(FORCE_AAVPCS)
   host_target_AAVPCS_definitions(${TARGET_MKALIAS})
 endif()
+if(ENABLE_VECTORCALL)
+  target_compile_definitions(${TARGET_MKALIAS} PRIVATE ENABLE_VECTORCALL=1)
+endif()
+
 
 # --------------------------------------------------------------------
 # TARGET_MKDISP
@@ -290,6 +298,11 @@ foreach(SIMD ${SLEEF_SUPPORTED_EXTENSIONS})
       target_compile_definitions(${OBJECT_${SIMD}} PRIVATE
         ENABLE_AAVPCS=1
       )
+    endif()
+
+    if(ENABLE_VECTORCALL AND NOT (${SIMD} STREQUAL "PUREC_SCALAR" OR ${SIMD} STREQUAL "PURECFMA_SCALAR"))
+      target_compile_definitions(${OBJECT_${SIMD}} PRIVATE ENABLE_VECTORCALL=1)
+      target_compile_definitions(${OBJECTDET_${SIMD}} PRIVATE ENABLE_VECTORCALL=1)
     endif()
 
     add_dependencies(${OBJECT_${SIMD}} rename${SIMD}.h_generated)
@@ -479,6 +492,10 @@ if (SLEEF_ARCH_X86)
     target_include_directories(dispsse_obj PRIVATE ${sleef_BINARY_DIR}/include)
     add_dependencies(dispsse_obj dispsse.c_generated renamedsp128.h_generated ${TARGET_HEADERS})
     target_sources(${TARGET_LIBSLEEF} PRIVATE $<TARGET_OBJECTS:dispsse_obj>)
+  endif()
+
+  if(ENABLE_VECTORCALL)
+    set(DISPATCHER_DEFINITIONS ${DISPATCHER_DEFINITIONS} ENABLE_VECTORCALL=1)
   endif()
 
   # Target dispavx_obj

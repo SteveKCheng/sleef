@@ -851,7 +851,11 @@ if (NOT BUILD_SHARED_LIBS)
   set(SLEEF_STATIC_LIBS 1)
 endif()
 
-if (COMPILER_SUPPORTS_WEAK_ALIASES)
+# Do not set ENABLE_ALIAS together with ENABLE_VECTORCALL since 
+# Clang (which would be the only compiler so far that supports that combination)
+# seems to not automatically take into account the function name mangling for 
+# __vectorcall when creating aliases.
+if (COMPILER_SUPPORTS_WEAK_ALIASES AND NOT (ENABLE_VECTORCALL AND WIN32))
   set(COMMON_TARGET_DEFINITIONS ${COMMON_TARGET_DEFINITIONS} ENABLE_ALIAS=1)
 endif()
 
