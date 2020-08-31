@@ -106,8 +106,19 @@ static void outputFunctionDeclaration(funcSpec f,
     case 8: argument1Type = "int"; break;
   }
 
-  printf("IMPORT CONST %s Sleef_%s%s%c%s", 
+  // The two cases below should not use vector calling convention.
+  // They do not have vector type as argument or return value.
+  // Also, the corresponding definition (`getPtr` and `getInt`) in `sleefsimd*.c`
+  // are not defined with `VECTOR_CC`.
+  switch (f.funcType)
+  {
+    case 7:
+    case 8: callConv = "";
+  }
+
+  printf("IMPORT CONST %s%s Sleef_%s%s%c%s", 
        returnType, 
+       callConv,
        atrPrefix != NULL ? atrPrefix : "",
        f.name, 
        fpLetter, 
@@ -123,18 +134,6 @@ static void outputFunctionDeclaration(funcSpec f,
   if (argument2Type != NULL) printf(", %s", argument2Type);
   if (argument3Type != NULL) printf(", %s", argument3Type);
   printf(")");
-
-  // The two cases below should not use vector calling convention.
-  // They do not have vector type as argument or return value.
-  // Also, the corresponding definition (`getPtr` and `getInt`) in `sleefsimd*.c`
-  // are not defined with `VECTOR_CC`.
-  switch (f.funcType)
-  {
-    case 7:
-    case 8: break;
-    default:
-      printf("%s", callConv);
-  }
 
   printf(";\n");
 }
