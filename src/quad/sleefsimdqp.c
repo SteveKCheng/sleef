@@ -272,7 +272,7 @@ static INLINE CONST vmask vilogb3k_vm_vd(vdouble d) {
   return m;
 }
 
-static INLINE CONST VECTOR_CC vdouble vpow2i_vd_vm(vmask q) {
+static INLINE CONST vdouble VECTOR_CC vpow2i_vd_vm(vmask q) {
   q = vadd64_vm_vm_vm(vcast_vm_i_i(0, 0x3ff), q);
   return vreinterpret_vd_vm(vsll64_vm_vm_i(q, 52));
 }
