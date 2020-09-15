@@ -746,7 +746,7 @@ endif()
 
 CHECK_C_SOURCE_COMPILES("
 #if defined(__CYGWIN__)
-#define EXPORT __stdcall __declspec(dllexport)
+#define EXPORT __declspec(dllexport)
 #else
 #define EXPORT
 #endif

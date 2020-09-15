@@ -257,7 +257,7 @@ typedef union {
 
 #if defined(__MINGW32__) || defined(__MINGW64__) || defined(__CYGWIN__) || defined(_MSC_VER)
 #ifndef SLEEF_STATIC_LIBS
-#define EXPORT __stdcall __declspec(dllexport)
+#define EXPORT __declspec(dllexport)
 #define NOEXPORT
 #else // #ifndef SLEEF_STATIC_LIBS
 #define EXPORT
