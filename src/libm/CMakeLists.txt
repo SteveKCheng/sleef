@@ -14,9 +14,18 @@ set(SLEEF_ORG_HEADER ${CMAKE_CURRENT_SOURCE_DIR}/sleeflibm_header.h.org)
 set(SLEEF_ORG_FOOTER ${CMAKE_CURRENT_SOURCE_DIR}/sleeflibm_footer.h.org)
 set(SLEEF_INCLUDE_HEADER ${sleef_BINARY_DIR}/include/sleef.h)
 
-configure_file(${SLEEF_ORG_HEADER} ${SLEEF_INCLUDE_HEADER})
+configure_file(${SLEEF_ORG_HEADER} ${CMAKE_CURRENT_BINARY_DIR}/sleeflibm_header.h)
 
 set(SLEEF_HEADER_COMMANDS "")
+
+# Truncate ${SLEEF_INCLUDE_HEADER} first so we are not appending to the contents from preceding builds.
+if((MSVC OR MINGW AND WIN32) OR SLEEF_CLANG_ON_WINDOWS)
+  string(REPLACE "/" "\\" sleef_header_input_file "${CMAKE_CURRENT_BINARY_DIR}/sleeflibm_header.h")
+  list(APPEND SLEEF_HEADER_COMMANDS COMMAND type "${sleef_header_input_file}" > ${SLEEF_INCLUDE_HEADER})
+else()
+  list(APPEND SLEEF_HEADER_COMMANDS COMMAND cat "${CMAKE_CURRENT_BINARY_DIR}/sleeflibm_header.h" > ${SLEEF_INCLUDE_HEADER})
+endif()
+
 foreach(SIMD ${SLEEF_HEADER_LIST})
   list(APPEND SLEEF_HEADER_COMMANDS COMMAND echo Generating sleef.h: ${TARGET_MKRENAME} ${HEADER_PARAMS_${SIMD}})
   list(APPEND SLEEF_HEADER_COMMANDS COMMAND $<TARGET_FILE:${TARGET_MKRENAME}> ${HEADER_PARAMS_${SIMD}} >> ${SLEEF_INCLUDE_HEADER})
