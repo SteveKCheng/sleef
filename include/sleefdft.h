@@ -30,9 +30,9 @@ extern "C"
 #define IMPORT __declspec(dllexport)
 #else // #ifdef IMPORT_IS_EXPORT
 #define IMPORT __declspec(dllimport)
-#if (defined(_MSC_VER))
+#if defined(_MSC_VER) && !defined(SLEEF_DISABLE_AUTOLINK)
 #pragma comment(lib,"sleefdft.lib")
-#endif // #if (defined(_MSC_VER))
+#endif // #if defined(_MSC_VER) && !defined(SLEEF_DISABLE_AUTOLINK)
 #endif // #ifdef IMPORT_IS_EXPORT
 #else // #if (defined(__MINGW32__) || defined(__MINGW64__) || defined(__CYGWIN__) || defined(_MSC_VER)) && !defined(SLEEF_STATIC_LIBS)
 #define IMPORT
