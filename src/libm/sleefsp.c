@@ -11,11 +11,19 @@
 #include <limits.h>
 #include <float.h>
 
-#ifndef ENABLE_BUILTIN_MATH
-#include <math.h>
-#define SQRTF sqrtf
+#if defined(ENABLE_BUILTIN_MATH)
+  #define SQRTF __builtin_sqrtf
+#elif defined(_MSC_VER) && (defined(_M_X64) || _M_IX86_FP == 2)
+  #include <emmintrin.h>
+  static __forceinline float SQRTF(float x)
+  {
+    float y;
+    _mm_store_ss(&y, _mm_sqrt_ss(_mm_set_ss(x)));
+    return y;
+  }
 #else
-#define SQRTF __builtin_sqrtf
+  #include <math.h>
+  #define SQRTF sqrtf
 #endif
 
 #include "misc.h"
